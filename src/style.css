@@ -64,3 +64,8 @@ button {
   cursor: pointer;
   outline: 0;
 }
+
+li input {
+  flex: 1;
+  margin: 3px;
+}
