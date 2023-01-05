@@ -1,6 +1,5 @@
-//Affichage de Todo
 import "./style.css";
-
+//Affichage d'une Todo
 const ul = document.querySelector("ul");
 
 const todos = [
@@ -24,16 +23,27 @@ const displayTodo = () => {
 
 const createTodoElement = (todo, index) => {
   const li = document.createElement("li");
+  const buttonDelete = document.createElement("button");
+  buttonDelete.innerHTML = "Supprimer";
+  buttonDelete.addEventListener("click", (event) => {
+    deleteTodo(index);
+  });
   li.innerHTML = `
     <span class="todo ${todo.done ? "done" : ""}"></span>
     <p>${todo.text}</p>
-    <button>Supprimier</button>
   `;
+  li.appendChild(buttonDelete);
   return li;
 };
 displayTodo();
 
-//L'ajout d'une Todo
+//Suppression d'une Todo
+const deleteTodo = (index) => {
+  todos.splice(index, 1);
+  displayTodo();
+};
+
+//Ajout d'une Todo
 const form = document.querySelector("form");
 const input = document.querySelector("form > input");
 
