@@ -1,3 +1,4 @@
+//Affichage de Todo
 import "./style.css";
 
 const ul = document.querySelector("ul");
@@ -9,7 +10,7 @@ const todos = [
   },
   {
     text: "faire du javascript",
-    done: false,
+    done: true,
   },
 ];
 
@@ -26,10 +27,27 @@ const createTodoElement = (todo, index) => {
   li.innerHTML = `
     <span class="todo ${todo.done ? "done" : ""}"></span>
     <p>${todo.text}</p>
-    <button>Supprimer</button>
-    
+    <button>Supprimier</button>
   `;
   return li;
 };
-
 displayTodo();
+
+//L'ajout d'une Todo
+const form = document.querySelector("form");
+const input = document.querySelector("form > input");
+
+form.addEventListener("submit", (event) => {
+  event.preventDefault();
+  const value = input.value;
+  input.value = "";
+  addTodo(value);
+});
+
+const addTodo = (text) => {
+  todos.push({
+    text,
+    done: false,
+  });
+  displayTodo();
+};
