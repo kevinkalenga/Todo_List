@@ -1,6 +1,8 @@
 import "./style.css";
 //Affichage d'une Todo
 const ul = document.querySelector("ul");
+const form = document.querySelector("form");
+const input = document.querySelector("form > input");
 
 const todos = [
   {
@@ -12,6 +14,13 @@ const todos = [
     done: true,
   },
 ];
+
+form.addEventListener("submit", (event) => {
+  event.preventDefault();
+  const value = input.value;
+  input.value = "";
+  addTodo(value);
+});
 
 const displayTodo = () => {
   const todosNode = todos.map((todo, index) => {
@@ -26,33 +35,19 @@ const createTodoElement = (todo, index) => {
   const buttonDelete = document.createElement("button");
   buttonDelete.innerHTML = "Supprimer";
   buttonDelete.addEventListener("click", (event) => {
+    event.stopPropagation();
     deleteTodo(index);
   });
   li.innerHTML = `
     <span class="todo ${todo.done ? "done" : ""}"></span>
     <p>${todo.text}</p>
   `;
-  li.appendChild(buttonDelete);
+  li.append(buttonDelete);
+  li.addEventListener("click", (event) => {
+    toggleTodo(index);
+  });
   return li;
 };
-displayTodo();
-
-//Suppression d'une Todo
-const deleteTodo = (index) => {
-  todos.splice(index, 1);
-  displayTodo();
-};
-
-//Ajout d'une Todo
-const form = document.querySelector("form");
-const input = document.querySelector("form > input");
-
-form.addEventListener("submit", (event) => {
-  event.preventDefault();
-  const value = input.value;
-  input.value = "";
-  addTodo(value);
-});
 
 const addTodo = (text) => {
   todos.push({
@@ -61,3 +56,15 @@ const addTodo = (text) => {
   });
   displayTodo();
 };
+
+const deleteTodo = (index) => {
+  todos.splice(index, 1);
+  displayTodo();
+};
+
+const toggleTodo = (index) => {
+  todos[index].done = !todos[index].done;
+  displayTodo();
+};
+
+displayTodo();
